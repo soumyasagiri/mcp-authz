@@ -4,8 +4,6 @@
 
 mcp-authz is the authorization layer that MCP does not have. A proxy that sits between your agent and your MCP server and enforces what the agent is actually allowed to do.
 
-Zero changes to your MCP client. Zero changes to your MCP server.
-
 [![CI](https://github.com/soumyasagiri/mcp-authz/actions/workflows/ci.yml/badge.svg)](https://github.com/soumyasagiri/mcp-authz/actions)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue.svg)](https://python.org)
