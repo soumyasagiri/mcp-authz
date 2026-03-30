@@ -21,7 +21,7 @@ Nothing in the protocol controls which agent can call which tool. Every agent wi
 
 Teams building agentic systems in sensitive environments keep hitting the same wall: there is no standard way to answer the question of who controls what the agent can do.
 
-mcp-authz is the answer.
+mcp-authz is the solution.
 
 ---
 
