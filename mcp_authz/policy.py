@@ -2,7 +2,7 @@
 from __future__ import annotations
 import logging, time
 from dataclasses import dataclass
-import requests
+import urllib.request, urllib.error, json as _json
 logger = logging.getLogger(__name__)
 class PolicyEngineError(Exception): pass
 @dataclass
@@ -30,7 +30,16 @@ class ToolPolicyEngine:
         return self._evaluate_local(inp)
     def _evaluate_opa(self, inp):
         try:
-            resp=requests.post(f"{self.opa_url}/v1/data/mcp/authz",json={"input":inp},timeout=self.timeout_seconds)
+            data = _json.dumps({"input": inp}).encode()
+                req = urllib.request.Request(
+                    f"{self.opa_url}/v1/data/mcp/authz",
+                    data=data,
+                    headers={"Content-Type": "application/json"},
+                    method="POST",
+                )
+                with urllib.request.urlopen(req, timeout=self.timeout_seconds) as resp:
+                    resp_body = resp.read()
+                    resp = type("R", (), {"json": lambda self: _json.loads(resp_body), "status_code": 200})()
             data=resp.json().get("result",{})
             return PolicyDecision(allow=bool(data.get("allow",False)),reason=data.get("reason","denied"),policy_version="opa",matched_rule=data.get("matched_rule"))
         except Exception as e:
