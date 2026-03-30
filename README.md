@@ -296,6 +296,7 @@ pytest tests/ -v
 
 ## Deep dives
 
+- [Threat model: STRIDE analysis and MITRE ATT\&CK mapping](docs/threat-model.md)
 - [How delegation chain validation works](docs/how-delegation-works.md)
 - [How the policy engine works](docs/how-policy-works.md)
 - [How behavioral anomaly detection works](docs/how-anomaly-detection-works.md)
