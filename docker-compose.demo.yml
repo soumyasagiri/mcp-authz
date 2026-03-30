@@ -1,0 +1,38 @@
+services:
+
+  mcp-server:
+    build:
+      context: .
+      dockerfile: Dockerfile.server
+
+  mcp-authz:
+    build:
+      context: .
+      dockerfile: Dockerfile.proxy
+    ports:
+      - "9000:9000"
+    environment:
+      UPSTREAM_MCP_URL: "http://mcp-server:8080"
+      PUBLIC_KEY_PATH: "/shared/demo_public_key.pem"
+      MAX_DELEGATION_DEPTH: "3"
+      ANOMALY_WINDOW_SECS: "3600"
+      LOG_LEVEL: "INFO"
+    volumes:
+      - shared_keys:/shared
+    depends_on:
+      - mcp-server
+
+  agent:
+    build:
+      context: .
+      dockerfile: Dockerfile.agent
+    environment:
+      PROXY_URL: "http://mcp-authz:9000/mcp"
+      PUBLIC_KEY_PATH: "/shared/demo_public_key.pem"
+    volumes:
+      - shared_keys:/shared
+    depends_on:
+      - mcp-authz
+
+volumes:
+  shared_keys:

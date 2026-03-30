@@ -1,0 +1,63 @@
+version: "3.9"
+
+# mcp-authz demo stack
+# Three containers: MCP server, mcp-authz proxy, demo agent
+# Start with: docker compose up --build
+# The agent runs all four scenarios automatically and exits.
+
+services:
+
+  # ── Demo MCP Server ─────────────────────────────────────────────────────────
+  # A realistic financial tool server.
+  # Exposes: account_balance, transaction_list, transaction_summary,
+  #          account_search (restricted), transfer_funds (blocked),
+  #          export_all_data (blocked), code_execute (blocked)
+  mcp-server:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.server
+    healthcheck:
+      test: ["CMD", "wget", "-q", "-O-", "http://localhost:8080/health"]
+      interval: 3s
+      timeout: 2s
+      retries: 10
+
+  # ── mcp-authz Proxy ─────────────────────────────────────────────────────────
+  # The authorization enforcement layer.
+  # Intercepts every tools/call and runs three checks before forwarding.
+  mcp-authz:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.proxy
+    ports:
+      - "9000:9000"      # Expose proxy so you can also test with curl
+    environment:
+      UPSTREAM_MCP_URL: "http://mcp-server:8080"
+      PUBLIC_KEY_PATH: "/shared/demo_public_key.pem"
+      MAX_DELEGATION_DEPTH: "3"
+      ANOMALY_WINDOW_SECS: "3600"
+      ANOMALY_BLOCK_THRESHOLD: "0.85"
+      LOG_LEVEL: "INFO"
+    volumes:
+      - shared_keys:/shared   # Agent writes public key here; proxy reads it
+    depends_on:
+      mcp-server:
+        condition: service_healthy
+
+  # ── Demo Agent ───────────────────────────────────────────────────────────────
+  # Runs four scenarios and exits.
+  # Watch this container's logs for the full demo output.
+  agent:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.agent
+    environment:
+      PROXY_URL: "http://mcp-authz:9000/mcp"
+      PUBLIC_KEY_PATH: "/shared/demo_public_key.pem"
+    volumes:
+      - shared_keys:/shared   # Agent writes RSA public key here at startup
+    depends_on:
+      - mcp-authz
+
+volumes:
+  shared_keys:    # Shared volume for RSA public key exchange between agent and proxy
