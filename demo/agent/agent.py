@@ -1,3 +1,16 @@
+# =============================================================================
+# DEMO ONLY - NOT FOR PRODUCTION USE
+#
+# This file uses a hardcoded RSA keypair to generate JWT tokens for the demo.
+# This keypair is public and committed to the repository.
+# Anyone can use it to generate tokens.
+#
+# In production:
+# - Your auth server generates and signs tokens
+# - Private keys are never committed to source control
+# - Use environment variables or a secrets manager for key material
+# =============================================================================
+
 """
 Demo Agent: Financial Assistant
 Simulates an AI agent calling MCP tools through mcp-authz.

@@ -263,6 +263,19 @@ Authorization log available at `http://your-proxy:9000/audit`.
 
 ---
 
+
+## Production considerations
+
+mcp-authz is production-ready for the authorization logic. A few infrastructure decisions to make before deploying at scale.
+
+**In-memory JTI store.** Replay attack prevention stores seen token IDs in memory. If the proxy restarts, the store resets and a token used before restart could theoretically be replayed within its expiry window. For high-security production deployments, back the JTI store with Redis. Contributions welcome.
+
+**In-memory anomaly baselines.** Per-agent behavioral baselines are stored in memory. Proxy restart loses all baselines and agents start a fresh warmup period. For most deployments this is acceptable. For zero-warmup requirements, persistence layer support is on the roadmap.
+
+**No built-in TLS.** The proxy accepts HTTP. In production, run it behind nginx, a load balancer, or any reverse proxy that terminates TLS. Never expose port 9000 directly to the internet without TLS in front.
+
+**Demo keypair is for demo only.** The Docker demo uses a hardcoded RSA keypair to generate test tokens. This keypair is public. Never use it outside the demo. In production, your auth server generates tokens signed with keys only it holds.
+
 ## What it does not do
 
 It does not generate tokens. You need an auth server for that.
