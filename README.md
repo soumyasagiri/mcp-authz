@@ -65,6 +65,8 @@ SCENARIO 4: Stolen credential doing bulk enumeration
 
 Three enforcement layers. Every tool call goes through all three before reaching your server.
 
+![Architecture](docs/architecture.svg)
+
 ```
                         Your Application
                               |
