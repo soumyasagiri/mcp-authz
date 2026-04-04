@@ -1,0 +1,134 @@
+<svg width="740" height="580" viewBox="0 0 740 580" xmlns="http://www.w3.org/2000/svg">
+<defs>
+  <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+    <path d="M1 2L8 5L1 8" fill="none" stroke="#6b7280" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </marker>
+  <marker id="arr-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+    <path d="M1 2L8 5L1 8" fill="none" stroke="#e11d48" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </marker>
+  <marker id="arr-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+    <path d="M1 2L8 5L1 8" fill="none" stroke="#10b981" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </marker>
+  <filter id="shadow">
+    <feDropShadow dx="0" dy="1" stdDeviation="2" flood-color="#00000014"/>
+  </filter>
+</defs>
+
+<rect width="740" height="580" fill="#f8f9fa" rx="16"/>
+
+<text x="370" y="30" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif" font-size="13" font-weight="600" fill="#111827" letter-spacing="0.3">mcp-authz  —  three-layer authorization proxy</text>
+
+<!-- ══ ROW 1: Application + Agent ══ -->
+<rect x="74" y="44" width="180" height="44" rx="10" fill="#f0fdf4" stroke="#10b981" stroke-width="1" filter="url(#shadow)"/>
+<text x="164" y="63" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif" font-size="12" font-weight="600" fill="#065f46">Your Application</text>
+<text x="164" y="79" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif" font-size="10" fill="#059669">Claude · LangChain · AutoGen</text>
+
+<rect x="486" y="44" width="180" height="44" rx="10" fill="#eff6ff" stroke="#3b82f6" stroke-width="1" filter="url(#shadow)"/>
+<text x="576" y="63" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif" font-size="12" font-weight="600" fill="#1e40af">Bearer JWT Token</text>
+<text x="576" y="79" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif" font-size="10" fill="#3b82f6">act claim chain + scopes + jti</text>
+
+<!-- arrows down -->
+<line x1="164" y1="88" x2="164" y2="110" stroke="#6b7280" stroke-width="1.5" marker-end="url(#arr)"/>
+<line x1="576" y1="88" x2="576" y2="110" stroke="#6b7280" stroke-width="1.5" marker-end="url(#arr)"/>
+
+<!-- ══ PROXY CONTAINER ══ -->
+<rect x="42" y="112" width="656" height="370" rx="14" fill="#ffffff" stroke="#e5e7eb" stroke-width="1.5" stroke-dasharray="8 5" filter="url(#shadow)"/>
+<rect x="58" y="104" width="108" height="18" rx="4" fill="#f8f9fa"/>
+<text x="112" y="116" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif" font-size="10" font-weight="600" fill="#6b7280" letter-spacing="0.8">mcp-authz proxy</text>
+
+<!-- ══ LAYER 1 ══ -->
+<rect x="62" y="126" width="616" height="90" rx="10" fill="#fdf4ff" stroke="#d946ef" stroke-width="1"/>
+<rect x="62" y="126" width="6" height="90" rx="3" fill="#d946ef"/>
+<text x="90" y="146" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif" font-size="11" font-weight="700" fill="#7e22ce">Layer 1  —  Delegation chain validator</text>
+<text x="90" y="162" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif" font-size="10" fill="#6b7280">RFC 8693</text>
+
+<rect x="88" y="170" width="155" height="36" rx="6" fill="#fdf4ff" stroke="#e879f9" stroke-width="0.75"/>
+<text x="165" y="185" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif" font-size="10" font-weight="600" fill="#7e22ce">JWT signature verify</text>
+<text x="165" y="198" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif" font-size="9" fill="#9333ea">RSA/EC via JWKS</text>
+
+<rect x="253" y="170" width="155" height="36" rx="6" fill="#fdf4ff" stroke="#e879f9" stroke-width="0.75"/>
+<text x="330" y="185" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif" font-size="10" font-weight="600" fill="#7e22ce">Scope subset check</text>
+<text x="330" y="198" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif" font-size="9" fill="#9333ea">child ⊆ parent always</text>
+
+<rect x="418" y="170" width="155" height="36" rx="6" fill="#fdf4ff" stroke="#e879f9" stroke-width="0.75"/>
+<text x="495" y="185" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif" font-size="10" font-weight="600" fill="#7e22ce">Replay prevention</text>
+<text x="495" y="198" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif" font-size="9" fill="#9333ea">jti tracking per RFC 7519</text>
+
+<!-- DENY arrow L1 -->
+<line x1="594" y1="188" x2="660" y2="188" stroke="#e11d48" stroke-width="1.5" stroke-dasharray="4 3" marker-end="url(#arr-red)"/>
+<text x="662" y="185" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif" font-size="9" font-weight="600" fill="#e11d48">403</text>
+<text x="662" y="196" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif" font-size="8" fill="#e11d48">INVALID_CHAIN</text>
+
+<!-- arrow down L1 to L2 -->
+<line x1="370" y1="216" x2="370" y2="234" stroke="#6b7280" stroke-width="1.5" marker-end="url(#arr)"/>
+<text x="382" y="228" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif" font-size="9" fill="#6b7280">chain valid</text>
+
+<!-- ══ LAYER 2 ══ -->
+<rect x="62" y="236" width="616" height="90" rx="10" fill="#fff7ed" stroke="#f97316" stroke-width="1"/>
+<rect x="62" y="236" width="6" height="90" rx="3" fill="#f97316"/>
+<text x="90" y="256" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif" font-size="11" font-weight="700" fill="#c2410c">Layer 2  —  Tool policy engine</text>
+<text x="90" y="272" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif" font-size="10" fill="#6b7280">OPA/Rego + built-in rules</text>
+
+<rect x="88" y="280" width="155" height="36" rx="6" fill="#fff7ed" stroke="#fb923c" stroke-width="0.75"/>
+<text x="165" y="295" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif" font-size="10" font-weight="600" fill="#c2410c">Permanent block list</text>
+<text x="165" y="308" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif" font-size="9" fill="#ea580c">transfer_funds, code_execute</text>
+
+<rect x="253" y="280" width="155" height="36" rx="6" fill="#fff7ed" stroke="#fb923c" stroke-width="0.75"/>
+<text x="330" y="295" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif" font-size="10" font-weight="600" fill="#c2410c">Scope coverage check</text>
+<text x="330" y="308" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif" font-size="9" fill="#ea580c">tool requires scope agent holds</text>
+
+<rect x="418" y="280" width="155" height="36" rx="6" fill="#fff7ed" stroke="#fb923c" stroke-width="0.75"/>
+<text x="495" y="295" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif" font-size="10" font-weight="600" fill="#c2410c">Custom Rego policies</text>
+<text x="495" y="308" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif" font-size="9" fill="#ea580c">OPA optional</text>
+
+<!-- DENY arrow L2 -->
+<line x1="594" y1="298" x2="660" y2="298" stroke="#e11d48" stroke-width="1.5" stroke-dasharray="4 3" marker-end="url(#arr-red)"/>
+<text x="662" y="295" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif" font-size="9" font-weight="600" fill="#e11d48">403</text>
+<text x="662" y="306" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif" font-size="8" fill="#e11d48">POLICY_DENIED</text>
+
+<!-- arrow down L2 to L3 -->
+<line x1="370" y1="326" x2="370" y2="344" stroke="#6b7280" stroke-width="1.5" marker-end="url(#arr)"/>
+<text x="382" y="338" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif" font-size="9" fill="#6b7280">policy allows</text>
+
+<!-- ══ LAYER 3 ══ -->
+<rect x="62" y="346" width="616" height="90" rx="10" fill="#fefce8" stroke="#eab308" stroke-width="1"/>
+<rect x="62" y="346" width="6" height="90" rx="3" fill="#eab308"/>
+<text x="90" y="366" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif" font-size="11" font-weight="700" fill="#854d0e">Layer 3  —  Behavioral anomaly detector</text>
+<text x="90" y="382" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif" font-size="10" fill="#6b7280">EWMA time-weighted per-agent baseline</text>
+
+<rect x="88" y="390" width="155" height="36" rx="6" fill="#fefce8" stroke="#facc15" stroke-width="0.75"/>
+<text x="165" y="405" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif" font-size="10" font-weight="600" fill="#854d0e">Call frequency</text>
+<text x="165" y="418" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif" font-size="9" fill="#a16207">Z-score vs agent baseline</text>
+
+<rect x="253" y="390" width="155" height="36" rx="6" fill="#fefce8" stroke="#facc15" stroke-width="0.75"/>
+<text x="330" y="405" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif" font-size="10" font-weight="600" fill="#854d0e">Parameter deviation</text>
+<text x="330" y="418" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif" font-size="9" fill="#a16207">Jaccard structure check</text>
+
+<rect x="418" y="390" width="155" height="36" rx="6" fill="#fefce8" stroke="#facc15" stroke-width="0.75"/>
+<text x="495" y="405" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif" font-size="10" font-weight="600" fill="#854d0e">Warmup bypass closed</text>
+<text x="495" y="418" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif" font-size="9" fill="#a16207">recent behavior weighted more</text>
+
+<!-- DENY arrow L3 -->
+<line x1="594" y1="408" x2="660" y2="408" stroke="#e11d48" stroke-width="1.5" stroke-dasharray="4 3" marker-end="url(#arr-red)"/>
+<text x="662" y="405" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif" font-size="9" font-weight="600" fill="#e11d48">403</text>
+<text x="662" y="416" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif" font-size="8" fill="#e11d48">ANOMALY_BLOCKED</text>
+
+<!-- Authorization log bar -->
+<rect x="62" y="444" width="616" height="26" rx="6" fill="#f1f5f9" stroke="#e2e8f0" stroke-width="0.75"/>
+<text x="370" y="461" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif" font-size="10" fill="#475569">Authorization log  ·  every ALLOW and DENY with agent, tool, outcome, reason  ·  /audit</text>
+
+<!-- arrow down out of proxy -->
+<line x1="370" y1="482" x2="370" y2="504" stroke="#10b981" stroke-width="1.5" marker-end="url(#arr-green)"/>
+<text x="382" y="496" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif" font-size="9" fill="#10b981">all layers passed</text>
+
+<!-- ══ MCP SERVER ══ -->
+<rect x="240" y="506" width="260" height="48" rx="10" fill="#ecfdf5" stroke="#10b981" stroke-width="1.2" filter="url(#shadow)"/>
+<text x="370" y="527" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif" font-size="12" font-weight="700" fill="#065f46">Your MCP Server</text>
+<text x="370" y="543" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif" font-size="10" fill="#059669">unchanged  ·  no code changes required</text>
+
+<!-- footer stats bar -->
+<rect x="42" y="562" width="656" height="10" rx="5" fill="#e5e7eb"/>
+<rect x="42" y="562" width="218" height="10" rx="5" fill="#d946ef" opacity="0.7"/>
+<rect x="260" y="562" width="218" height="10" rx="5" fill="#f97316" opacity="0.7"/>
+<rect x="478" y="562" width="220" height="10" rx="5" fill="#eab308" opacity="0.7"/>
+</svg>
